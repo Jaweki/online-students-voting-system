@@ -35,7 +35,7 @@ const LandingPage = () => {
           or pursuing any other path, your unique perspective and voice matter.
         </p>
         <p>Why should you be part of this movement?</p>
-        <div className=" grid grid-cols-3 max-mobile:grid-cols-1 gap-2 p-10">
+        <div className=" grid grid-cols-3 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:mr-4">
           {heroData.map((data) => (
             <div
               key={`${data}`}
