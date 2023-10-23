@@ -11,7 +11,7 @@ const LandingPage = () => {
           fill
           className="rounded-xl "
         />
-        <span className=" absolute font-playFair max-mobile:font-andika max-mobile:font-extrabold text-[50px] w-1/2 max-mobile:w-3/4 p-3 pt-1 pl-4 max-mobile:text-[20px]">
+        <span className=" absolute font-playFair max-mobile:font-andika max-mobile:font-extrabold text-[50px] w-3/4 max-mobile:w-3/4 p-3 pt-1 pl-4 max-mobile:text-[20px] max-md:text-[30px] max-md:w-3/4">
           <span className="text-primary-zetecBlue ">Zetec University</span>{" "}
           Students Online Voting System
           <Image
@@ -24,8 +24,8 @@ const LandingPage = () => {
         </span>
       </div>
 
-      <div className="font-andika my-10">
-        <h1 className=" font-bold text-[50px] text-center text-gray-700">
+      <div className="font-andika my-10 max-mobile:text-center">
+        <h1 className=" font-bold text-[50px] text-center text-gray-700 max-mobile:text-[30px]">
           Welcome to Your Voice, Your Choice: Empower Change Today!
         </h1>
         <p>
@@ -35,8 +35,8 @@ const LandingPage = () => {
           or pursuing any other path, your unique perspective and voice matter.
         </p>
         <p>Why should you be part of this movement?</p>
-        <div className=" grid grid-cols-3 gap-2 p-10">
-          {heroData.map((data, index) => (
+        <div className=" grid grid-cols-3 max-mobile:grid-cols-1 gap-2 p-10">
+          {heroData.map((data) => (
             <div
               key={`${data}`}
               className=" border shadow-lg rounded-2xl w-[300px] p-2 border-primary-zetecBlue"
