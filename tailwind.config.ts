@@ -8,11 +8,29 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      screens: {
+        mobile: '640px',
+        desktop: '1440px'
       },
+      colors: {
+        primary: {
+          zetecBlue:'hsl(240, 90%, 60%)',
+        },
+        neutral: {
+          magnolia: 'hsl(40, 30%, 90%)',
+        },
+      },
+      fontFamily: {
+        andika: ['Andika', 'sans-serif'],
+        playFair: ['Playfair Display', 'serif'],
+        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+      },
+      fontWeight: {
+        regular: '400',
+        medium: '500',
+        bold: '700',
+        extrabold: '800',
+      }
     },
   },
   plugins: [],
