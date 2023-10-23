@@ -24,7 +24,7 @@ const LandingPage = () => {
         </span>
       </div>
 
-      <div className="font-andika my-10 max-mobile:text-center">
+      <div className="w-full font-andika my-10 max-mobile:text-center">
         <h1 className=" font-bold text-[50px] text-center text-gray-700 max-mobile:text-[30px]">
           Welcome to Your Voice, Your Choice: Empower Change Today!
         </h1>
@@ -35,7 +35,7 @@ const LandingPage = () => {
           or pursuing any other path, your unique perspective and voice matter.
         </p>
         <p>Why should you be part of this movement?</p>
-        <div className=" grid grid-cols-3 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:mr-4">
+        <div className="w-full grid grid-cols-3 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:mr-4">
           {heroData.map((data) => (
             <div
               key={`${data}`}
