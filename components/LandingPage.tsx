@@ -101,10 +101,12 @@ const LandingPage = () => {
         What active users think.
       </p>
       <div className=" grid grid-cols-2 gap-3 max-mobile:grid-cols-1">
-        {reviews.map((review) => (
+        {reviews.map((review, index) => (
           <div
             key={review.name}
-            className="flex flex-col gap-2 border shadow-lg p-4 h-full justify-between"
+            className={`${
+              ++index % 2 != 0 ? " mobile:col-span-2" : ""
+            } flex flex-col gap-2 border shadow-lg p-4 h-full justify-between`}
           >
             <p className="">{review.text}</p>
             <span className="flex flex-row gap-3 justify-end">

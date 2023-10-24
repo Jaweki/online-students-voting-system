@@ -52,7 +52,7 @@ export const Navbar = () => {
                 </a>
                 <a
                   //   href=""
-                  className=" font-extrabold font-andika text-[30px] underline hover:text-gray-800"
+                  className=" font-extrabold font-andika text-[30px] underline hover:text-gray-800 hover:cursor-pointer"
                 >
                   Forum
                 </a>
@@ -78,7 +78,7 @@ export const Navbar = () => {
             </button>
             <a
               //   href=""
-              className=" font-extrabold font-andika text-[30px] underline hover:text-gray-800"
+              className=" font-extrabold font-andika text-[30px] underline hover:text-gray-800 hover:cursor-pointer"
             >
               Forum
             </a>
