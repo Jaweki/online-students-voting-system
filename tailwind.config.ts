@@ -17,7 +17,7 @@ const config: Config = {
           zetecBlue:'hsl(240, 90%, 60%)',
         },
         neutral: {
-          magnolia: 'hsl(40, 30%, 90%)',
+          magnolia: 'hsl(0deg 0% 97.66%)',
         },
       },
       fontFamily: {
