@@ -1,14 +1,18 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
-  const [ismobile] = useState(window.innerWidth < 640);
+  const [ismobile, setIsMobile] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
 
   const handleMenuToggle = () => {
     setMenuToggle(!menuToggle);
   };
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 640);
+  }, []);
   return (
     <div>
       {ismobile ? (
