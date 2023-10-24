@@ -10,6 +10,14 @@ export const Navbar = () => {
     setMenuToggle(!menuToggle);
   };
 
+  const handleLogin = () => {
+    alert("Trying to login...");
+  };
+
+  const handleRegister = () => {
+    alert("Trying to register...");
+  };
+
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
   }, []);
@@ -34,20 +42,26 @@ export const Navbar = () => {
               className="absolute z-0 right-4"
             />
           ) : (
-            <div className="w-1/2 flex flex-col absolute z-10 top-0 right-0  bg-slate-900">
+            <div className="w-1/2 flex flex-col absolute z-10 top-3 right-3  bg-slate-900 rounded-lg">
               <Image
                 src={"/images/close-menu-icon.png"}
                 alt="click to close menu"
                 width={100}
-                height={50}
-                className="absolute right-0 "
+                height={100}
+                className="absolute -right-6 border rounded-full "
                 onClick={handleMenuToggle}
               />
               <div className="mt-16 w-full text-white flex flex-col p-5 text-[20px] gap-3">
-                <a className="underline  hover:text-gray-600 rounded-md  ">
+                <a
+                  onClick={handleRegister}
+                  className="underline  hover:text-gray-600 rounded-md hover:cursor-pointer "
+                >
                   Register
                 </a>
-                <a className="underline hover:text-gray-600 rounded-md ">
+                <a
+                  onClick={handleLogin}
+                  className="underline hover:text-gray-600 rounded-md hover:cursor-pointer"
+                >
                   Login
                 </a>
                 <a
@@ -70,10 +84,18 @@ export const Navbar = () => {
           />
 
           <div className=" flex flex-row justify-center items-center mr-10 gap-10">
-            <button className="w-[100px] h-[40px] bg-slate-900 text-white hover:bg-blue-950 hover:text-gray-600 rounded-md flex justify-center items-center ">
+            <button
+              type="button"
+              onClick={handleRegister}
+              className="w-[100px] h-[40px] bg-slate-900 text-white hover:bg-blue-950 hover:text-gray-600 rounded-md flex justify-center items-center "
+            >
               Register
             </button>
-            <button className="w-[100px] h-[40px] bg-slate-900 text-white hover:bg-blue-950 hover:text-gray-600 rounded-md flex justify-center items-center ">
+            <button
+              type="button"
+              onClick={handleLogin}
+              className="w-[100px] h-[40px] bg-slate-900 text-white hover:bg-blue-950 hover:text-gray-600 rounded-md flex justify-center items-center "
+            >
               Login
             </button>
             <a
