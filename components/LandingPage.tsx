@@ -45,7 +45,7 @@ const LandingPage = () => {
           or pursuing any other path, your unique perspective and voice matter.
         </p>
         <p>Why should you be part of this movement?</p>
-        <div className="w-full grid grid-cols-3 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:p-2 max-mobile:mr-4">
+        <div className="w-full grid mobile:grid-cols-3 max-md:grid-cols-2 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:p-2 max-mobile:mr-4 ">
           {heroData.map((data) => (
             <div
               key={`${data}`}
@@ -72,7 +72,7 @@ const LandingPage = () => {
         Your elections. Any device. Any location. On time. With Notification and
         Support.
       </p>
-      <div className="w-full grid grid-cols-3 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:p-2 max-mobile:mr-4">
+      <div className="w-full grid grid-cols-3 max-md:grid-cols-2 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:p-2 max-mobile:mr-4">
         {functionalityData.map((item, index) => (
           <div
             key={`${item.title}`}
@@ -116,7 +116,7 @@ const LandingPage = () => {
         ))}
       </div>
 
-      <footer className="w-full h-[400px] bg-slate-900 mt-20 grid grid-cols-3 mobile:p-20 max-mobile:p-5 gap-5 text-white relative">
+      {/* <footer className="w-full h-[400px] bg-slate-900 mt-20 grid grid-cols-3 mobile:p-20 max-mobile:p-5 gap-5 text-white relative">
         <div className=" flex flex-col gap-5">
           <Link href={"https://www.zetech.ac.ke/"} target="_blank">
             <Image
@@ -202,7 +202,7 @@ const LandingPage = () => {
             </a>
           </span>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
