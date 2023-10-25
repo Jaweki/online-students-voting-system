@@ -116,7 +116,7 @@ const LandingPage = () => {
         ))}
       </div>
 
-      {/* <footer className="w-full h-[400px] bg-slate-900 mt-20 grid grid-cols-3 mobile:p-20 max-mobile:p-5 gap-5 text-white relative">
+      <footer className="w-full h-[400px] bg-slate-900 mt-20 grid grid-cols-3 mobile:p-20 max-mobile:p-5 gap-5 text-white relative">
         <div className=" flex flex-col gap-5">
           <Link href={"https://www.zetech.ac.ke/"} target="_blank">
             <Image
@@ -202,7 +202,7 @@ const LandingPage = () => {
             </a>
           </span>
         </div>
-      </footer> */}
+      </footer>
     </div>
   );
 };

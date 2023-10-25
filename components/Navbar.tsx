@@ -1,10 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
   const [ismobile, setIsMobile] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
+  const router = useRouter();
 
   const handleMenuToggle = () => {
     setMenuToggle(!menuToggle);
@@ -16,6 +18,7 @@ export const Navbar = () => {
 
   const handleRegister = () => {
     alert("Trying to register...");
+    router.push("/register");
   };
 
   useEffect(() => {
