@@ -13,11 +13,11 @@ export const Navbar = () => {
   };
 
   const handleLogin = () => {
-    alert("Trying to login...");
+    // todo...
   };
 
   const handleRegister = () => {
-    alert("Trying to register...");
+    // todo...
     router.push("/register");
   };
 
@@ -33,6 +33,8 @@ export const Navbar = () => {
             alt="Zetech University logo"
             width={100}
             height={30}
+            onClick={() => router.push("/")}
+            className=" hover:cursor-pointer"
           />
 
           {!menuToggle ? (
@@ -84,6 +86,8 @@ export const Navbar = () => {
             alt="Zetech University logo"
             width={200}
             height={40}
+            onClick={() => router.push("/")}
+            className=" hover:cursor-pointer"
           />
 
           <div className=" flex flex-row justify-center items-center mr-10 gap-10">
