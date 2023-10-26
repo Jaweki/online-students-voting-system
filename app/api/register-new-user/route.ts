@@ -2,15 +2,21 @@ import { connectToDB } from "@/utils/database";
 import { NextRequest, NextResponse } from "next/server";
 import SystemUser from "@/models/userSchema";
 import bcrypt from 'bcrypt';
+import { InputsObject } from "@/types/types";
 
 
 export const POST = async(req: NextRequest, res: NextResponse) => {
     try {
         const userData: FormData = await req.formData();
-        let userObj = {};
+        const keys = userData.keys() as IterableIterator<keyof InputsObject>;
 
-        for (const key of userData.keys()) {
-            userObj[key] = userData.get(key);
+        let userObj = {} as InputsObject;
+
+        for (const key of keys) {
+            const value = userData.get(key);
+            if (typeof value === "string") {
+                userObj[key] = value;
+            }
         }
         console.log("user object ready for db save: ", userObj);
 

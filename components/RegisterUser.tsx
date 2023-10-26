@@ -169,8 +169,8 @@ const RegisterUser = ({
       const payloadData = new FormData();
       const properties = Object.getOwnPropertyNames(input);
       for (const prop of properties) {
-        if (prop != "repassword") {
-          payloadData.append(prop, input[prop]);
+        if (prop !== "repassword" && typeof prop === "string") {
+          payloadData.append(prop, input[prop]!);
         }
       }
       payloadData.set("avatar", avatar_url);
