@@ -9,11 +9,10 @@ export const connectToDB = async () => {
         return;
     }
 
-    const uri = process.env.MONGODB_VOTE_SYSTEM_URI;
+    const uri = process.env.MONGODB_VOTE_SYSTEM_URI as string;
     try {
         await mongoose.connect(uri, {
             dbName: "voting-system",
-            useUnifiedTopology: true,
         });
 
         isConnected = true;
