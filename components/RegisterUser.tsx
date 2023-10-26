@@ -28,8 +28,19 @@ const ImageUpload = ({ file, setFile }: ImageUploadProps) => {
       document.body.appendChild(fileInput);
       fileInput.click();
 
-      fileInput.addEventListener("change", (event) => {
-        return setFile(event.target?.files[0]);
+      fileInput.addEventListener("change", (event: Event) => {
+        // Get the first selected file.
+        const target = event.target as HTMLInputElement;
+
+        // Access the `files` property.
+        const files = target.files as any;
+
+        for (const file of files) {
+          // If the file is not null, set it.
+          if (file !== null) {
+            setFile(file);
+          }
+        }
       });
     }
   };
@@ -167,13 +178,19 @@ const RegisterUser = ({
       const avatar_url = await uploadImage();
 
       const payloadData = new FormData();
-      const properties = Object.getOwnPropertyNames(input);
-      for (const prop of properties) {
-        if (prop !== "repassword" && typeof prop === "string") {
-          payloadData.append(prop, input[prop]!);
-        }
-      }
-      payloadData.set("avatar", avatar_url);
+      // const properties = Object.getOwnPropertyNames(input);
+      // for (const prop of properties) {
+      //   if (prop !== "repassword" && typeof prop === "string") {
+      //     payloadData.append(prop, input[prop]!);
+      //   }
+      // }
+      // payloadData.set("avatar", avatar_url);
+      payloadData.append("regNo", input.regNo);
+      payloadData.append("name", input.name);
+      payloadData.append("email", input.email);
+      payloadData.append("password", input.password);
+      payloadData.append("avatar", avatar_url);
+      // Don't append 'repassword' as it's not needed
 
       const response = await fetch("api/register-new-user", {
         method: "POST",
