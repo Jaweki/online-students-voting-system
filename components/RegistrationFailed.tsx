@@ -10,7 +10,11 @@ const RegistrationFailed = ({ error }: { error: string }) => {
         <p className=" text-center leading-tight w-full">{error}</p>
         <a
           href="/users"
-          className=" text-gray-700 underline font-semibold hover:text-blue-600 text-[20px]"
+          className={`${
+            error.toLowerCase().includes("server")
+              ? "hidden"
+              : "text-gray-700 underline font-semibold hover:text-blue-600 text-[20px]"
+          }`}
         >
           Login
         </a>
