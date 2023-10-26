@@ -192,7 +192,7 @@ const RegisterUser = ({
       payloadData.append("avatar", avatar_url);
       // Don't append 'repassword' as it's not needed
 
-      const response = await fetch("api/register-new-user", {
+      const response = await fetch("/api/register-new-user", {
         method: "POST",
         body: payloadData,
       });
