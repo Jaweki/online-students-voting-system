@@ -3,3 +3,9 @@ export type FunctionalityData = {
     desc: string,
     icon: string,
 }
+
+export type RegistrationStatusObject = {
+    type: string,
+    email: string,
+    error: string,
+}

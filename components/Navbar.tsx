@@ -14,6 +14,7 @@ export const Navbar = () => {
 
   const handleLogin = () => {
     // todo...
+    router.push("/users");
   };
 
   const handleRegister = () => {
