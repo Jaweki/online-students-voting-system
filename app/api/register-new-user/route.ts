@@ -18,29 +18,28 @@ export const POST = async(req: NextRequest, res: NextResponse) => {
                 userObj[key] = value;
             }
         }
-        console.log("user object ready for db save: ", userObj);
 
-        await connectToDB();
+        // await connectToDB();
 
-        const userExists = await SystemUser.findOne({
-            $or: [
-                { regNo: userObj.regNo },
-                { email: userObj.email }
-            ]
-        })
+        // const userExists = await SystemUser.findOne({
+        //     $or: [
+        //         { regNo: userObj.regNo },
+        //         { email: userObj.email }
+        //     ]
+        // })
 
-        if (userExists) { 
-            console.log("User Exists, Registration failed.");
-            return new NextResponse(JSON.stringify({ fail_message: "Invalid Request. Already registered as a User. try to login instead." }), { status: 400 });
-        }
+        // if (userExists) { 
+        //     console.log("User Exists, Registration failed.");
+        //     return new NextResponse(JSON.stringify({ fail_message: "Invalid Request. Already registered as a User. try to login instead." }), { status: 400 });
+        // }
 
-        const hashedPassword = await bcrypt.hash(userObj.password, 10);
+        // const hashedPassword = await bcrypt.hash(userObj.password, 10);
 
-        const newUser = await SystemUser.create({ ...userObj, password: hashedPassword });
+        // const newUser = await SystemUser.create({ ...userObj, password: hashedPassword });
 
-        await newUser.save();
+        // await newUser.save();
 
-        console.log("New user successfully added.: ", newUser);
+        // console.log("New user successfully added.: ", newUser);
 
         return new NextResponse(JSON.stringify({ success_message: "New user created..."}), {status: 201});
     } catch (error) {
