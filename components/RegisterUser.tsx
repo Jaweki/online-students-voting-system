@@ -174,6 +174,8 @@ const RegisterUser = ({
       return;
     }
 
+    const controller = new AbortController();
+    const signal = controller.signal;
     try {
       const avatar_url = await uploadImage();
 
@@ -195,8 +197,12 @@ const RegisterUser = ({
       const response = await fetch("/api/register-new-user", {
         method: "POST",
         body: payloadData,
+        signal,
       });
-
+      // If the request does not receive a response within 60 seconds, abort it.
+      setTimeout(() => {
+        controller.abort();
+      }, 60000);
       const data = await response.json();
 
       if (response.status == 201) {
