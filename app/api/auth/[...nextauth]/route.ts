@@ -4,6 +4,7 @@ import User from '@/models/userSchema';
 import { connectToDB } from '@/utils/database';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
+import { NextRequest, NextResponse } from 'next/server';
 
 const authOptions = {
     providers: [
@@ -97,7 +98,7 @@ const authOptions = {
 
 
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    return await NextAuth(req, res, authOptions as AuthOptions);
+const handler = async (req: NextRequest, res: NextResponse) => {
+    return await NextAuth(req as any, res as any, authOptions as AuthOptions);
 };
 export { handler as GET, handler as POST} 
