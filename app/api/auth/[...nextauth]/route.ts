@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth from 'next-auth';
 import User from '@/models/userSchema';
 import { connectToDB } from '@/utils/database';
@@ -92,7 +91,5 @@ export const authOptions = {
     },
 };
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-
-    return NextAuth(req, res, authOptions as any);
-}
+const handler = NextAuth(authOptions as any);
+export { handler as GET, handler as POST} 
