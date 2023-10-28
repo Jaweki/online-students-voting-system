@@ -97,7 +97,7 @@ const authOptions = {
 
 
 
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return await NextAuth(req, res, authOptions as AuthOptions);
 };
 export { handler as GET, handler as POST} 
