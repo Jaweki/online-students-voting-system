@@ -92,7 +92,7 @@ export const authOptions = {
     },
 };
 
-export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+export default (req: NextApiRequest, res: NextApiResponse) => {
 
-    return await NextAuth(req, res, authOptions as any);
+    return NextAuth(req, res, authOptions as any);
 }
