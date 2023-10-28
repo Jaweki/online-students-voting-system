@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, { AuthOptions } from 'next-auth';
 import User from '@/models/userSchema';
 import { connectToDB } from '@/utils/database';
@@ -62,6 +61,7 @@ const authOptions = {
             }
         })
     ],
+    secret: process.env.NEXT_SECRET,
     session: {
         strategy: "jwt",
         maxAge: 1 * 1 * 60 * 60,
