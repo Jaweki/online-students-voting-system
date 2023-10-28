@@ -1,8 +1,8 @@
+import NextAuth from 'next-auth/next';
 import User from '@/models/userSchema';
 import { connectToDB } from '@/utils/database';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
-import NextAuth from 'next-auth/next';
 
 export const authOptions = {
     providers: [
@@ -37,7 +37,7 @@ export const authOptions = {
                             }
                             console.log("User found in db as: ", result);
 
-                            const comparePassword = bcrypt.compare(credentials?.password, result.password)
+                            const comparePassword = bcrypt.compare(credentials?.password as string, result.password)
 
                             if (!comparePassword) {
                                 const message = "Bad password! " + credentials?.password;
@@ -66,7 +66,7 @@ export const authOptions = {
     },
 
     callbacks: {
-        jwt: async({ token, user }) => {
+        jwt: async({ token, user }: { token: any; user: any }) => {
             if (user) {
                 token.userId = user.userId;
                 token.name = user.name;
@@ -77,7 +77,7 @@ export const authOptions = {
 
             return token
         },
-        session: async({ session, token }) => {
+        session: async({ session, token }: { session: any; token: any }) => {
             if (token && session) {
                 session.user.userId  = token.userId;
                 session.user.name = token.name;
@@ -91,6 +91,6 @@ export const authOptions = {
     },
 };
 
-const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions as any);
 
 export { handler as GET, handler as POST };

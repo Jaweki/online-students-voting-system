@@ -23,7 +23,7 @@ const LoginForm = () => {
       ...input,
       redirect: false,
     }).then((result) => {
-      if (result.ok && result.url !== null) {
+      if (result?.ok) {
         router.push("/users");
       } else {
         setInvalid(true);

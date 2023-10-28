@@ -16,12 +16,12 @@ const UserNavBar = () => {
     name: string | undefined;
     avatar: string | undefined;
   }>({
-    name: "",
-    avatar: "",
+    name: session?.user.name,
+    avatar: session?.user.avatar,
   });
 
-  const handleLogout = async () => {
-    await signOut();
+  const handleLogout = () => {
+    signOut();
     router.push("/");
   };
 
@@ -31,12 +31,7 @@ const UserNavBar = () => {
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
-    setUser({
-      ...user,
-      name: session?.user.name,
-      avatar: session?.user.avatar,
-    });
-  }, [session?.user.avatar, session?.user.name, user]);
+  }, []);
 
   return (
     <div className={`${status === "authenticated" ? "" : "hidden"}`}>
