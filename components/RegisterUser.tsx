@@ -1,119 +1,19 @@
 "use client";
 
-import { ChangeEvent, DragEvent, FormEvent, useEffect, useState } from "react";
-import Image from "next/image";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { RegistrationStatusObject } from "@/types/types";
-
-interface ImageUploadProps {
-  file: File | null;
-  setFile: (prop: File) => void;
-}
-
-const ImageUpload = ({ file, setFile }: ImageUploadProps) => {
-  const [ismobile, setIsMobile] = useState(false);
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile: File = e.target.files[0];
-      setFile(selectedFile);
-    }
-  };
-
-  const handleSelectFile = () => {
-    const fileInput = document.createElement("input") as HTMLInputElement;
-    if (fileInput) {
-      fileInput.type = "file";
-      fileInput.style.display = "none";
-
-      document.body.appendChild(fileInput);
-      fileInput.click();
-
-      fileInput.addEventListener("change", (event: Event) => {
-        // Get the first selected file.
-        const target = event.target as HTMLInputElement;
-
-        // Access the `files` property.
-        const files = target.files as any;
-
-        for (const file of files) {
-          // If the file is not null, set it.
-          if (file !== null) {
-            setFile(file);
-          }
-        }
-      });
-    }
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const selectedFile: File = e.dataTransfer.files[0];
-    setFile(selectedFile);
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 640);
-  }, []);
-  return (
-    <div>
-      {!ismobile ? (
-        <div
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          className=" border-2 border-dashed border-white h-[100px] text-center rounded text-white cursor-pointer w-full"
-          onClick={handleSelectFile}
-        >
-          {file ? (
-            <div className=" flex flex-row justify-between pr-6 py-2 pl-2 items-center h-full  max-md:items-center w-full">
-              <p className=" font-bold flex flex-col items-start max-md:hidden">
-                <span className=" ">selected file:</span>
-                <span className="underline text-gray-500 leading-tight">
-                  {file.name}
-                </span>
-              </p>
-
-              <Image
-                src={URL.createObjectURL(file)}
-                alt="Selected Image"
-                width={75}
-                height={80}
-                className="rounded-xl"
-              />
-            </div>
-          ) : (
-            <p className="h-full w-full flex flex-col justify-center items-center text-center text-white font-bold ">
-              Drag and drop an image or{" "}
-              <span className=" w-[50px] bg-neutral-magnolia text-black font-bold rounded-lg">
-                click
-              </span>{" "}
-              to select one.
-            </p>
-          )}
-        </div>
-      ) : (
-        <input
-          type="file"
-          accept="image/*"
-          id="fileInput"
-          onChange={handleFileChange}
-          className=" w-full"
-        />
-      )}
-    </div>
-  );
-};
+import ImageUpload from "./ImageUpload";
 
 const RegisterUser = ({
+  userRole,
   setStatus,
 }: {
+  userRole: string;
   setStatus: (obj: RegistrationStatusObject) => void;
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [valid, setValid] = useState(true);
+  const [accKey, setAccKey] = useState("");
   const [input, setInput] = useState({
     regNo: "",
     name: "",
@@ -180,18 +80,15 @@ const RegisterUser = ({
       const avatar_url = await uploadImage();
 
       const payloadData = new FormData();
-      // const properties = Object.getOwnPropertyNames(input);
-      // for (const prop of properties) {
-      //   if (prop !== "repassword" && typeof prop === "string") {
-      //     payloadData.append(prop, input[prop]!);
-      //   }
-      // }
-      // payloadData.set("avatar", avatar_url);
-      payloadData.append("regNo", input.regNo);
+      payloadData.append("userId", input.regNo);
       payloadData.append("name", input.name);
       payloadData.append("email", input.email);
       payloadData.append("password", input.password);
       payloadData.append("avatar", avatar_url);
+      payloadData.append("role", userRole);
+      if (userRole === "admin") {
+        payloadData.append("accessKey", accKey);
+      }
       // Don't append 'repassword' as it's not needed
 
       const response = await fetch("/api/register-new-user", {
@@ -224,16 +121,36 @@ const RegisterUser = ({
   };
 
   return (
-    <div className="flex flex-col  items-center w-full bg-neutral-magnolia">
-      <p className=" font-semibold mobile:text-[30px] mobile:font-extrabold">
+    <div className={` flex flex-col  items-center w-full bg-neutral-magnolia`}>
+      <p
+        className={`${
+          userRole === "admin" ? "hidden" : ""
+        } font-semibold mobile:text-[30px] mobile:font-extrabold text-center`}
+      >
         Register With us to be part of the change.
+      </p>
+      <p
+        className={`${
+          userRole === "student" ? "hidden" : ""
+        } font-semibold mobile:text-[30px] mobile:font-extrabold text-center mobile:-mt-5`}
+      >
+        Go ahead and Get Registered as an Administrator.
       </p>
       <form
         onSubmit={handleFormSubmit}
-        className=" bg-slate-900 max-mobile:w-[95%] max-mobile:h-[90%] max-mobile:mt-3 w-[50%] h-[90%] mt-1  rounded-xl shadow-2xl p-3 mobile:grid mobile:grid-cols-2 max-mobile:flex max-mobile:flex-col max-mobile:mb-10 gap-3"
+        className=" font-andika bg-slate-900 max-mobile:w-[95%] max-mobile:h-[90%] max-mobile:mt-3 w-[500px] h-[90%]  rounded-xl shadow-2xl p-3 mobile:grid mobile:grid-cols-2 max-mobile:flex max-mobile:flex-col max-mobile:mb-10 gap-3"
       >
         <label className="">
-          <span className=" text-white">Students number</span>
+          <span
+            className={`${userRole === "admin" ? "hidden" : ""} text-white`}
+          >
+            Students number
+          </span>
+          <span
+            className={`${userRole === "student" ? "hidden" : ""} text-white`}
+          >
+            Employment Id
+          </span>
           <input
             type="text"
             name="regNo"
@@ -241,7 +158,7 @@ const RegisterUser = ({
             placeholder="e.g. E020-11-3113/2020"
             value={input.regNo}
             onChange={handleValueChange}
-            className="w-full p-4 rounded-md border focus:outline-white bg-transparent font-playFair text-white"
+            className="w-full p-4 rounded-md border focus:outline-white bg-transparent text-white"
           />
         </label>
         <label className="">
@@ -253,7 +170,7 @@ const RegisterUser = ({
             placeholder="e.g. John Doe"
             value={input.name}
             onChange={handleValueChange}
-            className="w-full p-4 rounded-md border focus:outline-white bg-transparent font-playFair text-white"
+            className="w-full p-4 rounded-md border focus:outline-white bg-transparent text-white"
           />
         </label>
         <label className="">
@@ -265,7 +182,7 @@ const RegisterUser = ({
             placeholder="e.g. johndoe@lorem.com"
             value={input.email}
             onChange={handleValueChange}
-            className="w-full p-4 rounded-md border focus:outline-white bg-transparent font-playFair text-white"
+            className="w-full p-4 rounded-md border focus:outline-white bg-transparent text-white"
           />
         </label>
         <label className="">
@@ -277,7 +194,7 @@ const RegisterUser = ({
             placeholder="e.g. 8-digit password"
             value={input.password}
             onChange={handleValueChange}
-            className={`w-full p-4 rounded-md bg-transparent font-playFair text-white${
+            className={`w-full p-4 rounded-md bg-transparent text-white${
               !valid
                 ? " focus:outline-red-500 focus:outline-offset-2 border border-red-600 "
                 : " border border-white"
@@ -303,14 +220,28 @@ const RegisterUser = ({
             placeholder="e.g. 8-digit password"
             value={input.repassword}
             onChange={handleValueChange}
-            className={`w-full p-4 rounded-md bg-transparent font-playFair text-white${
+            className={`w-full p-4 rounded-md bg-transparent text-white${
               !valid
                 ? " focus:outline-red-500 focus:outline-offset-2 border border-red-600 "
                 : " border border-white"
             } `}
           />
         </label>
-        <label className=" w-full flex flex-col gap-3 mt-3">
+
+        <label className={`${userRole === "student" ? "hidden" : ""}`}>
+          <span className=" text-white">Registration Key</span>
+          <input
+            type="text"
+            name="accessKey"
+            required
+            placeholder=".i.e. provided access key"
+            value={accKey}
+            onChange={(e) => setAccKey(e.target.value)}
+            className="w-full p-4 rounded-md border focus:outline-white bg-transparent  text-white"
+          />
+        </label>
+
+        <label className=" w-full flex flex-col gap-3 mt-3 col-span-2">
           <span className=" text-white">Profile photo:</span>
           <ImageUpload file={file} setFile={setFile} />
         </label>

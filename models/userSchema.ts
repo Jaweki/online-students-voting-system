@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 const userSchema = new Schema({
-    regNo: {
+    userId: {
         type: 'string',
         required: [true, 'regNo is required!'],
     },
@@ -21,6 +21,10 @@ const userSchema = new Schema({
         type: 'string',
         required: [true, 'avatar_url is required!'],
     },
+    role: {
+        type: "string",
+        required: [true, "User Role is required"],
+    }
 })
 
 const SystemUser = models.SystemUser || model('SystemUser', userSchema, 'users');

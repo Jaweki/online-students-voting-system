@@ -1,0 +1,33 @@
+.card {
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transform-origin: center ;
+    /* z-index: 999; */
+    transition: 3s ease;
+}
+
+.card .frontCard,
+.card .backCard {
+    /* position: absolute; */
+    backface-visibility: hidden;
+}
+
+
+.card .frontCard {
+    transform-style: preserve-3d;
+    transform: rotateY(0deg) translateZ(70px);
+    perspective: 1000px;
+}
+
+.card .backCard {
+    transform-style: preserve-3d;
+    transform: rotateY(180deg) translateZ(70px);
+    perspective: 1000px;
+} 
+
+
+.rotateFront {
+    transform: rotateY(180deg) ;
+    transform-style: preserve-3d;
+}

@@ -6,7 +6,7 @@ export const connectToDB = async () => {
 
     if (isConnected) {
         console.log('MongoDB is already connected.');
-        return;
+        return true;
     }
 
     const uri = process.env.MONGODB_VOTE_SYSTEM_URI as string;

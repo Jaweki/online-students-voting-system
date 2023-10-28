@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
+import Provider from "@/components/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Online Votes",
   description:
-    "Zetec's #1 students online voting system. Register to be a voter, and place your voice. Each decision, each opinion matter. Come let's build, strengthen and nature our future by making sound decisions. Your vote surely counts.",
+    "Students preferred online voting system. Register to be a voter, and casr your vote. Each decision, each opinion matter. Come let's build, strengthen and nature our future by making sound decisions. Your vote surely counts.",
 };
 
 export default function RootLayout({
@@ -18,10 +19,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        {children}
-      </body>
+      <Provider session={undefined}>
+        <body className={inter.className}>
+          <main className="">
+            <Navbar />
+            {children}
+          </main>
+        </body>
+      </Provider>
     </html>
   );
 }
