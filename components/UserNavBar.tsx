@@ -16,8 +16,8 @@ const UserNavBar = () => {
     name: string | undefined;
     avatar: string | undefined;
   }>({
-    name: session?.user.name,
-    avatar: session?.user.avatar,
+    name: "",
+    avatar: "",
   });
 
   const handleLogout = () => {
@@ -31,7 +31,11 @@ const UserNavBar = () => {
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
-  }, []);
+    setUser({
+      name: session?.user.name,
+      avatar: session?.user.avatar,
+    });
+  }, [session]);
 
   return (
     <div className={`${status === "authenticated" ? "" : "hidden"}`}>
@@ -96,7 +100,7 @@ const UserNavBar = () => {
           </div>
         </div>
       ) : (
-        <div className=" flex flex-row p-5 justify-between bg-slate-900 text-white">
+        <div className=" flex flex-row p-5 justify-between bg-slate-900 text-white gap-3">
           <Image
             src={"/images/zetech-logo.png"}
             alt="Zetech University logo"
@@ -119,7 +123,7 @@ const UserNavBar = () => {
                 alt="Your Profile photo"
                 width={70}
                 height={70}
-                className="rounded-full"
+                className="rounded-full mr-10"
               />
             </div>
             <button className=" border-b-2 border-b-teal-700 hover:bg-gray-600 p-2 h-[35px] rounded-lg hover:cursor-pointer">

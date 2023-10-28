@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth/next';
+import NextAuth from 'next-auth';
 import User from '@/models/userSchema';
 import { connectToDB } from '@/utils/database';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -37,7 +37,7 @@ export const authOptions = {
                             }
                             console.log("User found in db as: ", result);
 
-                            const comparePassword = bcrypt.compare(credentials?.password as string, result.password)
+                            const comparePassword = await bcrypt.compare(credentials?.password as string, result.password)
 
                             if (!comparePassword) {
                                 const message = "Bad password! " + credentials?.password;

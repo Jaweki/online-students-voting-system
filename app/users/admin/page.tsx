@@ -1,7 +1,7 @@
 "use client";
 import UserNavBar from "@/components/UserNavBar";
 import { UserSessionType } from "@/types/types";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
@@ -13,11 +13,6 @@ const Page = () => {
   const [input, setInput] = useState({
     search: "",
   });
-
-  const handleLogout = async () => {
-    await signOut();
-    router.push("/");
-  };
 
   const handleInputchange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -56,7 +51,7 @@ const Page = () => {
     return (
       <div className=" bg-neutral-magnolia w-[100vw] flex flex-col">
         <div className=" w-full p-3 flex flex-col items-center relative">
-          <div className=" w-[600px] max-mobile:w-[300px]  text-center flex flex-col items-center">
+          <div className=" w-[70%] md:w-[85%] max-mobile:w-[300px]  text-center flex flex-col items-center">
             <div className="w-full font-bold mobile:font-extrabold text-[50px] max-mobile:text-[30px] text-slate-800">
               Efficient Oversight for a Fair Election by Managing the Electoral
               Process with Precision.
