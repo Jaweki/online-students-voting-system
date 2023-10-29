@@ -78,6 +78,7 @@ const ImageUpload = ({ file, setFile }: ImageUploadProps) => {
                 alt="Selected Image"
                 width={75}
                 height={80}
+                loading="lazy"
                 className="rounded-xl"
               />
             </div>

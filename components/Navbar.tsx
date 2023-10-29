@@ -37,6 +37,7 @@ export const Navbar = () => {
               alt="Zetech University logo"
               width={100}
               height={30}
+              loading="lazy"
               onClick={() => router.push("/")}
               className=" hover:cursor-pointer"
             />
@@ -47,6 +48,7 @@ export const Navbar = () => {
                 alt="click on this menu icon on the top right of your screen to register, lgin or go to forum website"
                 width={40}
                 height={30}
+                loading="lazy"
                 onClick={handleMenuToggle}
                 className="absolute z-0 right-4"
               />
@@ -57,6 +59,7 @@ export const Navbar = () => {
                   alt="click to close menu"
                   width={100}
                   height={100}
+                  loading="lazy"
                   className="absolute -right-6 border rounded-full "
                   onClick={handleMenuToggle}
                 />
@@ -90,6 +93,7 @@ export const Navbar = () => {
               alt="Zetech University logo"
               width={200}
               height={40}
+              loading="lazy"
               onClick={() => router.push("/")}
               className=" hover:cursor-pointer"
             />

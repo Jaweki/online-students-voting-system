@@ -11,6 +11,7 @@ const Footer = () => {
             alt="Zetec logo at the webpage footer"
             width={150}
             height={150}
+            loading="lazy"
           />
         </Link>
         <ul className="flex flex-col gap-3">

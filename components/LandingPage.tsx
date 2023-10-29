@@ -19,6 +19,7 @@ const LandingPage = () => {
           src={"/images/people-aligning.png"}
           alt="..."
           fill
+          loading="lazy"
           className="rounded-xl "
         />
         <span className=" absolute font-playFair max-mobile:font-andika max-mobile:font-extrabold text-[50px] w-3/4 max-mobile:w-3/4 p-3 pt-1 pl-4 max-mobile:text-[20px] max-md:text-[30px] max-md:w-3/4">
@@ -29,6 +30,7 @@ const LandingPage = () => {
             alt="..."
             width={30}
             height={30}
+            loading="lazy"
             className="rounded-xl "
           />
         </span>
@@ -83,6 +85,7 @@ const LandingPage = () => {
               alt={`${item.title} functionality`}
               width={40}
               height={40}
+              loading="lazy"
             />
             <p className="flex flex-col text-center">
               <span className=" font-bold text-black text-[20px]">
@@ -124,6 +127,7 @@ const LandingPage = () => {
               alt="Zetec logo at the webpage footer"
               width={150}
               height={150}
+              loading="lazy"
             />
           </Link>
           <ul className="flex flex-col gap-3">

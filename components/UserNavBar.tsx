@@ -6,7 +6,13 @@ import { UserSessionType } from "@/types/types";
 import MobileAdminsCP from "./MobileAdminsCP";
 import { useRouter } from "next/navigation";
 
-const UserNavBar = () => {
+const UserNavBar = ({
+  setShowNewBallot,
+  setShowLandingPage,
+}: {
+  setShowNewBallot: (param: boolean) => void;
+  setShowLandingPage: (param: boolean) => void;
+}) => {
   const [ismobile, setIsMobile] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
   const { data: session, status } = useSession() as UserSessionType;
@@ -46,20 +52,27 @@ const UserNavBar = () => {
             alt="Zetech University logo"
             width={100}
             height={30}
+            loading="lazy"
             onClick={handleLogout}
             className=" hover:cursor-pointer"
           />
 
           <div className=" flex flex-row w-1/2 justify-between items-center">
-            {session?.user.role === "admin" && <MobileAdminsCP />}
+            {session?.user.role === "admin" && (
+              <MobileAdminsCP
+                setShowLandingPage={setShowLandingPage}
+                setShowNewBallot={setShowNewBallot}
+              />
+            )}
             {!menuToggle ? (
               <Image
                 src={user.avatar as string}
                 alt="click on this menu icon on the top right of your screen to register, lgin or go to forum website"
                 width={55}
                 height={55}
+                loading="lazy"
                 onClick={handleMenuToggle}
-                className="absolute z-0 right-4 rounded-full"
+                className="absolute z-0 right-4 rounded-full hover:cursor-pointer"
               />
             ) : (
               <div className="w-[200px] flex flex-col absolute z-10 top-3 border-2 border-blue-900 right-3 bg-slate-900 rounded-lg">
@@ -68,6 +81,7 @@ const UserNavBar = () => {
                   alt="click to close menu"
                   width={100}
                   height={100}
+                  loading="lazy"
                   className="absolute -right-6 rounded-full "
                   onClick={handleMenuToggle}
                 />
@@ -106,6 +120,7 @@ const UserNavBar = () => {
             alt="Zetech University logo"
             width={200}
             height={40}
+            loading="lazy"
             onClick={handleLogout}
             className=" hover:cursor-pointer"
           />
@@ -123,6 +138,7 @@ const UserNavBar = () => {
                 alt="Your Profile photo"
                 width={70}
                 height={70}
+                loading="lazy"
                 className="rounded-full mr-10"
               />
             </div>

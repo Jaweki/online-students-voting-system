@@ -91,6 +91,7 @@ const Page = () => {
                   alt="Click to search for a tag, title, or ballot description based on your input text"
                   width={30}
                   height={30}
+                  loading="lazy"
                   className=" mx-3 bg-gray-700 rounded-lg"
                 />
               </button>
