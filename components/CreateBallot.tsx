@@ -206,7 +206,7 @@ const CreateBallot = ({
   };
 
   return (
-    <div className=" bg-neutral-magnolia w-[100vw]  px-4 pt-2 font-jakarta overflow-x-hidden flex flex-col items-center relative max-md:mt-3">
+    <div className=" bg-neutral-magnolia w-[100vw] md:h-[80vh] px-4 pt-2 font-jakarta overflow-x-hidden flex flex-col items-center relative max-md:mt-3">
       <span
         className={` absolute top-10 min-w-[20%] min-h-[50px] text-center bg-red-500 text-white flex flex-col items-center justify-center rounded-lg text-[17px] font-thin p-2 ${
           invalidObj.case ? "" : "hidden"
@@ -222,7 +222,7 @@ const CreateBallot = ({
       </span>
       <form
         onSubmit={handleSubmit}
-        className="w-full md:grid md:grid-cols-2 md:grid-rows-2 max-md:flex max-md:flex-col max-md:gap-0 max-md:mb-20 overflow-x-hidden "
+        className="w-full md:grid md:grid-cols-2 md:grid-rows-2 max-md:flex max-md:flex-col max-md:gap-0 max-md:mb-20 "
       >
         <div className="px-4 ">
           <label className="">
@@ -351,8 +351,8 @@ const CreateBallot = ({
 
           <div
             className={`${
-              input.type.binary ? "hidden" : ""
-            } w-full h-full max-mobile:h-[35vh] max-md:grid max-mdgrid-col-1 overflow-x-hidden overflow-y-scroll gap-12 max-md:max-h-[1000px] max-mobile:max-h-[700px] `}
+              !input.type.binary ? "" : "hidden"
+            } w-full md:h-full max-mobile:h-[35vh] max-md:grid max-md:grid-col-1 overflow-x-hidden overflow-y-scroll gap-12 max-md:min-h-[200px] max-mobile:min-h-[200px] max-md:max-h-[700px] max-mobile:max-h-[500px] `}
           >
             {candidates &&
               candidates.map((candidate, index) => {
@@ -362,7 +362,9 @@ const CreateBallot = ({
                   return (
                     <div
                       key={candidate.userId}
-                      className="w-[95%] p-2 flex flex-col mobile:gap-2 relative "
+                      className={`w-[95%] p-2 flex flex-col mobile:gap-2 relative ${
+                        !input.type.binary ? "" : "hidden"
+                      }`}
                     >
                       <div className="flex flex-row p-3 gap-4">
                         <Image
