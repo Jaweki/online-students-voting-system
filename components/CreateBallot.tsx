@@ -200,9 +200,7 @@ const CreateBallot = ({
     });
     setInput(inputDeepCopy);
 
-    console.log("Deleted: ", deletedObjs);
     const payload = { ...inputDeepCopy, admin: session?.user.userId };
-    console.log("To DB: ", payload);
   };
 
   return (
