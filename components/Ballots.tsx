@@ -9,7 +9,7 @@ const Ballots = () => {
       try {
         const response = await fetch("/api/fetch-ballots", {
           method: "GET",
-          cache: "no-store",
+          cache: "no-cache",
         });
 
         const data = await response.json();
