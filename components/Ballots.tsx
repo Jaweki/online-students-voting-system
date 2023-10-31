@@ -7,7 +7,10 @@ const Ballots = () => {
   useEffect(() => {
     const fetchBallots = async () => {
       try {
-        const response = await fetch("/api/fetch-ballots");
+        const response = await fetch("/api/fetch-ballots", {
+          method: "GET",
+          cache: "no-store",
+        });
 
         const data = await response.json();
         if (data.success && response.status === 200) {
