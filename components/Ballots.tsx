@@ -11,7 +11,7 @@ const Ballots = () => {
 
         const data = await response.json();
         if (data.success && response.status === 200) {
-          setBallots(data.success);
+          setBallots(data.success.reverse());
         } else if (data.fail_message || response.status === 500) {
           console.log(data.fail_message);
         }
