@@ -57,11 +57,11 @@ const Ballots = () => {
             {ballot.title}
           </div>
 
-          <div className=" text-left font-andika  mobile:text-[25px] md:text-[18px] text-ellipsis absolute z-0 bottom-14 mb-10 ">
+          <div className=" text-left font-andika  mobile:text-[25px] md:text-[18px] text-ellipsis overflow-hidden">
             {ballot.desc}
           </div>
 
-          <div className="absolute z-0 bottom-3">
+          <div className="">
             <div
               className={`${
                 ballot.type.binary ? "text-gray-600" : "text-gray-400"

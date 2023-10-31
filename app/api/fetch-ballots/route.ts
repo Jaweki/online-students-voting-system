@@ -1,10 +1,12 @@
 import BallotSchema from "@/models/ballotSchema";
 import { connectToDB } from "@/utils/database";
+import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 
-export const GET = async(req: NextRequest, res: NextResponse) => {
+export const GET = async(req: NextRequest, res: NextApiResponse) => {
     try {
+        res.setHeader('Cache-Control', 'no-store');
         const isConnected = await connectToDB();
 
         if (!isConnected) {
