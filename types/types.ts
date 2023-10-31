@@ -37,3 +37,44 @@ export type UserSessionType = {
     data: user | null;
     status: "authenticated" | "loading" | "unauthenticated";
   };
+
+export type InputState = {
+    title: string;
+    desc: string;
+    tags: string;
+    time_span: {
+      from: string;
+      to: string;
+    };
+    type: {
+      binary: boolean;
+      candidate: Array<{ userId: string; slogan: string; desc: string }>;
+    };
+    admin?: string;
+    _id?: string;
+    votes?: {
+        up: number;
+        down: number;
+    }
+  };
+
+
+export type Ballot = {
+    title: string;
+    desc: string;
+    tags: string[];
+    time_span: {
+      from: string;
+      to: string;
+    };
+    type: {
+      binary: boolean;
+      candidate: Array<{ userId: string; slogan: string; desc: string }>;
+    };
+    admin?: string;
+    _id?: string;
+    votes?: {
+        up: number;
+        down: number;
+    }
+  };

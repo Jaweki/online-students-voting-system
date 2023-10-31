@@ -47,7 +47,6 @@ const RegisterUser = ({
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "voting-system");
-        console.log(formData);
 
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/jaweki-cloudinary/image/upload",
@@ -61,7 +60,8 @@ const RegisterUser = ({
 
         return data.secure_url;
       } catch (error) {
-        console.error("Error uploading image: ", error);
+        // console.error("Error uploading image: ", error);
+        alert("Technical Failure before submit... Error Uploading image!");
       }
     }
   };
@@ -103,7 +103,6 @@ const RegisterUser = ({
       const data = await response.json();
 
       if (response.status == 201) {
-        console.log("Register new user response: ", data);
         setStatus({ type: "success", email: input.email, error: "" });
       } else {
         console.error("Failed to register new user.");
@@ -124,14 +123,22 @@ const RegisterUser = ({
     <div className={` flex flex-col  items-center w-full bg-neutral-magnolia`}>
       <p
         className={`${
-          userRole === "admin" ? "hidden" : ""
+          userRole === "students" ? "" : "hidden"
         } font-semibold mobile:text-[30px] mobile:font-extrabold text-center`}
       >
         Register With us to be part of the change.
       </p>
       <p
         className={`${
-          userRole === "student" ? "hidden" : ""
+          userRole === "staff" ? "" : "hidden"
+        } font-semibold mobile:text-[30px] mobile:font-extrabold text-center`}
+      >
+        Register as an institutions staff and help inspire logically guided
+        development.
+      </p>
+      <p
+        className={`${
+          userRole === "admin" ? "" : "hidden"
         } font-semibold mobile:text-[30px] mobile:font-extrabold text-center mobile:-mt-5`}
       >
         Go ahead and Get Registered as an Administrator.
@@ -142,12 +149,14 @@ const RegisterUser = ({
       >
         <label className="">
           <span
-            className={`${userRole === "admin" ? "hidden" : ""} text-white`}
+            className={`${userRole === "students" ? "" : "hidden"} text-white`}
           >
             Students number
           </span>
           <span
-            className={`${userRole === "student" ? "hidden" : ""} text-white`}
+            className={`${
+              userRole === "admin" || userRole === "staff" ? "" : "hidden"
+            } text-white`}
           >
             Employment Id
           </span>
@@ -233,11 +242,13 @@ const RegisterUser = ({
           <input
             type="text"
             name="accessKey"
-            required
+            // required
             placeholder=".i.e. provided access key"
             value={accKey}
             onChange={(e) => setAccKey(e.target.value)}
-            className="w-full p-4 rounded-md border focus:outline-white bg-transparent  text-white"
+            className={`w-full p-4 rounded-md border focus:outline-white bg-transparent  text-white ${
+              userRole === "student" ? "hidden" : ""
+            }`}
           />
         </label>
 

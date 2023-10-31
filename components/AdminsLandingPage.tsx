@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ChangeEvent } from "react";
+import Ballots from "./Ballots";
 
 interface LandingPageInputs {
   search: string;
@@ -138,6 +139,7 @@ const AdminsLandingPage = ({
       </div>
 
       {/* Render the active ballots */}
+      <Ballots />
     </div>
   );
 };

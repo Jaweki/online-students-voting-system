@@ -15,6 +15,10 @@ const config: Config = {
       colors: {
         primary: {
           zetecBlue:'hsl(240, 90%, 60%)',
+          burntOrange: "hsl(14, 74%, 31%)",
+          turquoise: "hsl(174, 74%, 51%)",
+          alphaBurntOrange: "hsla(14, 74%, 31%, 0.4)",
+          alphaTurquoise: "hsla(174, 74%, 51%, 0.1)",
         },
         neutral: {
           magnolia: 'hsl(0deg 0% 97.66%)',

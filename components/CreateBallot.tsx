@@ -1,42 +1,19 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import _ from "lodash";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { UserSessionType } from "@/types/types";
-
-type InputState = {
-  title: string;
-  desc: string;
-  tags: string;
-  time_span: {
-    from: string;
-    to: string;
-  };
-  type: {
-    binary: boolean;
-    candidate: Array<{ userId: string; slogan: string; desc: string }>;
-  };
-};
+import { InputState } from "@/types/types";
+import { initalNewBallotInputState } from "@/utils/initialStates";
 
 const CreateBallot = ({
   setGround,
 }: {
   setGround: (param: string) => void;
 }) => {
+  const refTarget = useRef<HTMLDivElement | null>(null);
   const { data: session } = useSession() as UserSessionType;
-  const [input, setInput] = useState<InputState>({
-    title: "",
-    desc: "",
-    tags: "",
-    time_span: {
-      from: "",
-      to: "",
-    },
-    type: {
-      binary: true,
-      candidate: [{ userId: "", slogan: "", desc: "" }],
-    },
-  });
+  const [input, setInput] = useState<InputState>(initalNewBallotInputState);
 
   const [searchUserId, setSearchUserId] = useState("");
 
@@ -75,7 +52,23 @@ const CreateBallot = ({
     const inputDeepCopy = _.cloneDeep(input);
     inputDeepCopy.type.binary = !inputDeepCopy.type.binary;
     setInput(inputDeepCopy);
+
+    // window.scrollTo({
+    //   top: refTarget.current?.offsetHeight,
+    //   behavior: "smooth",
+    // });
+    const showDiv = refTarget.current;
+    if (showDiv) {
+      showDiv.scrollTo({
+        top: showDiv.scrollHeight,
+      });
+    }
   };
+
+  function validateInputDate(val: any) {
+    const regex = /^(0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-(20\d{2})$/;
+    return regex.test(val);
+  }
 
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -91,15 +84,15 @@ const CreateBallot = ({
 
     const inputDeepCopy = _.cloneDeep(input);
     if (name === "from" || name === "to") {
-      if (!isNaN(+value.charAt(value.length - 1)) && value.length <= 10) {
+      if (/^[0-9-]{0,10}$/.test(value)) {
         inputDeepCopy.time_span[name] = value;
         setInput(inputDeepCopy);
+        return;
       }
     } else if (
       name.includes("candidate_desc-") &&
       inputDeepCopy.type.candidate[index_]
     ) {
-      // const index_ = parseInt(name.split("-")[1]);
       inputDeepCopy.type.candidate[index_].desc = value;
       setInput(inputDeepCopy);
       return;
@@ -107,7 +100,6 @@ const CreateBallot = ({
       name.includes("candidate_slogan-") &&
       inputDeepCopy.type.candidate[index_]
     ) {
-      // const index_ = parseInt(name.split("-")[1]);
       inputDeepCopy.type.candidate[index_].slogan = value;
       setInput(inputDeepCopy);
       return;
@@ -123,6 +115,14 @@ const CreateBallot = ({
       );
       return;
     }
+    candidates.forEach((candidate) => {
+      if (candidate.userId === searchUserId) {
+        handleInvalidCases(
+          "Candidate already in nomination list. add a different user_id!"
+        );
+        return;
+      }
+    });
     const payload = new FormData();
     payload.append("userId", searchUserId);
 
@@ -136,18 +136,15 @@ const CreateBallot = ({
 
       if (data.success) {
         const user = data.success;
-        if (user.role === "student") {
-          for (let i = 0; i < candidates.length; i++) {
-            if (candidates[i].userId === user.userId) {
+        if (user.role === "student" || user.role === "staff") {
+          for (const element of candidates) {
+            if (element.userId === user.userId) {
               return;
             }
           }
 
           const inputDeepCopy = _.cloneDeep(input);
-          // if (!inputDeepCopy.type.candidate[0].userId) {
-          //   inputDeepCopy.type.candidate.pop();
-          // }
-          inputDeepCopy.type.candidate.push({
+          inputDeepCopy.type.candidate.unshift({
             userId: user.userId,
             slogan: "",
             desc: "",
@@ -155,13 +152,17 @@ const CreateBallot = ({
           setInput(inputDeepCopy);
 
           setCandidates([
-            ...candidates,
             {
               userId: user.userId,
               name: user.name,
               avatar: user.avatar,
             },
+            ...candidates,
           ]);
+          refTarget.current?.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
         } else if (user.role === "admin") {
           // reject admins
           handleInvalidCases("Invalid! Admins, cannot be nominated");
@@ -171,7 +172,6 @@ const CreateBallot = ({
         handleInvalidCases(data.fail_message);
       }
     } catch (error) {
-      // console.log(error);
       handleInvalidCases(`${error}`);
     }
   };
@@ -181,14 +181,45 @@ const CreateBallot = ({
       (candidate) => candidate.userId !== user_id
     );
 
+    const remainingNominatedCandidates = input.type.candidate.filter(
+      (candidate) => candidate.userId !== user_id
+    );
+
     setCandidates(remainingCandidates);
+
+    const inputDeepCopy = _.cloneDeep(input);
+    inputDeepCopy.type.candidate = remainingNominatedCandidates;
+    setInput(inputDeepCopy);
   };
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const inputDeepCopy = _.cloneDeep(input);
+    if (
+      !validateInputDate(inputDeepCopy.time_span.from) &&
+      !validateInputDate(inputDeepCopy.time_span.from)
+    ) {
+      handleInvalidCases(
+        "Invalid Ballot From and To Dates! Accepted Format is: DD-MM-YYYY"
+      );
+      return;
+    }
+    if (!validateInputDate(inputDeepCopy.time_span.from)) {
+      handleInvalidCases(
+        "Invalid Ballot From Date! Accepted Format is: DD-MM-YYYY"
+      );
+      return;
+    }
+    if (!validateInputDate(inputDeepCopy.time_span.to)) {
+      handleInvalidCases(
+        "Invalid Ballot To Date! Accepted Format is: DD-MM-YYYY"
+      );
+      return;
+    }
+
     const deletedObjs: {}[] | null = [];
-    inputDeepCopy.type.candidate.forEach((candidate) => {
+    inputDeepCopy.type.candidate?.forEach((candidate) => {
       if (!candidate.userId || !candidate.desc || !candidate.slogan) {
         deletedObjs?.push(
           inputDeepCopy.type.candidate.splice(
@@ -199,20 +230,50 @@ const CreateBallot = ({
       }
     });
     setInput(inputDeepCopy);
+    if (!input.type.binary && candidates.length < 2) {
+      handleInvalidCases("Nominate more than two candidates!");
+      return;
+    }
 
     const payload = { ...inputDeepCopy, admin: session?.user.userId };
+
+    try {
+      const response = await fetch("/api/create-ballot", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (data.success || response.status === 201) {
+        setInput(initalNewBallotInputState);
+        handleInvalidCases("Success. New Ballot created.");
+        setTimeout(() => {
+          window.location.assign("/users");
+        }, 7000);
+      } else if (data.fail_message || response.status === 500) {
+        handleInvalidCases(
+          "Failed to Create a new Ballot. Possibly an internal system error. Contact system developer."
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      handleInvalidCases(
+        "Failed to Create a new Ballot. Possibly you may be offline."
+      );
+    }
   };
 
   return (
-    <div className=" bg-neutral-magnolia w-[100vw] md:h-[80vh] px-4 pt-2 font-jakarta overflow-x-hidden flex flex-col items-center relative max-md:mt-3">
+    <div className=" bg-neutral-magnolia w-[100vw] md:h-[83vh] px-4 max-mdpt-2 font-jakarta overflow-x-hidden flex flex-col items-center relative max-md:mt-3">
       <span
-        className={` absolute top-10 min-w-[20%] min-h-[50px] text-center bg-red-500 text-white flex flex-col items-center justify-center rounded-lg text-[17px] font-thin p-2 ${
+        className={` absolute md:top-10 min-w-[20%] min-h-[50px] text-center bg-red-500 text-white flex flex-col items-center justify-center rounded-lg text-[17px] font-thin p-2 max-md:bottom-7 max-md:z-10 ${
           invalidObj.case ? "" : "hidden"
         }`}
       >
         {invalidObj.text}
       </span>
-      <span className="w-full font-extrabold font-playFair text-[50px] text-blue-950 max-mobile:hidden max-md:mt-2">
+      <span className="w-full font-extrabold font-playFair text-[50px] text-blue-950 max-mobile:hidden max-md:mt-2 md:-mt-2">
         Customize and Create a Ballot to Your Preference
       </span>
       <span className="font-extrabold font-playFair text-[40px] mobile:hidden md:hidden text-blue-950 mb-4">
@@ -220,7 +281,7 @@ const CreateBallot = ({
       </span>
       <form
         onSubmit={handleSubmit}
-        className="w-full md:grid md:grid-cols-2 md:grid-rows-2 max-md:flex max-md:flex-col max-md:gap-0 max-md:mb-20 "
+        className="w-full md:grid md:grid-cols-2 max-md:flex max-md:flex-col max-md:gap-0 max-md:mb-20 md:-mt-3"
       >
         <div className="px-4 ">
           <label className="">
@@ -294,7 +355,26 @@ const CreateBallot = ({
           </div>
 
           <div className="flex flex-col mt-5 gap-3 ">
-            <span className="text-[19px] font-bold">Ballot Vote Type</span>
+            <div className="text-[19px] font-bold flex flex-row justify-between">
+              <span>Ballot Vote Type</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setCandidates([
+                    {
+                      userId: "",
+                      name: "",
+                      avatar: "",
+                    },
+                  ]);
+                }}
+                className={`${
+                  candidates?.length > 1 ? "" : "hidden"
+                } bg-gray-500 hover:bg-red-500 text-blue-950 hover:text-gray-500 rounded-lg p-1`}
+              >
+                Clear All
+              </button>
+            </div>
             <div className="flex flex-row bg-gray-200 w-full h-[40px] rounded-lg hover:shadow-2xl justify-center items-center gap-4">
               <span
                 className={`font-bold text-[18px] ${
@@ -313,13 +393,16 @@ const CreateBallot = ({
                   }`}
                 />
               </div>
-              <span
+              <div
                 className={`font-bold text-[18px] ${
                   !input.type.binary ? " text-blue-950" : " text-gray-500"
                 }`}
               >
                 Candidate
-              </span>
+                <span className={`${candidates?.length > 2 ? "" : "hidden"}`}>
+                  s ({candidates?.length - 1})
+                </span>
+              </div>
             </div>
           </div>
 
@@ -348,97 +431,103 @@ const CreateBallot = ({
           </div>
 
           <div
+            ref={refTarget}
             className={`${
-              !input.type.binary ? "" : "hidden"
-            } w-full md:h-full max-mobile:h-[35vh] max-md:grid max-md:grid-col-1 overflow-x-hidden overflow-y-scroll gap-12 max-md:min-h-[200px] max-mobile:min-h-[200px] max-md:max-h-[700px] max-mobile:max-h-[500px] `}
+              input.type.binary
+                ? "hidden"
+                : "w-full px-6 flex flex-col max-h-[30vh] min-h-[30vh] max-mobile:h-[35vh] overflow-x-hidden overflow-y-scroll mobile:gap-20 max-md:min-h-[200px] max-mobile:min-h-[200px] max-md:max-h-[70vh] max-mobile:max-h-[65vh] mobile:py-4 mobile:mb-3"
+            } `}
           >
-            {candidates &&
-              candidates.map((candidate, index) => {
-                if (candidate.userId == "" || candidate.userId == null) {
-                  return;
-                } else {
-                  return (
-                    <div
-                      key={candidate.userId}
-                      className={`w-[95%] p-2 flex flex-col mobile:gap-2 relative ${
-                        !input.type.binary ? "" : "hidden"
-                      }`}
-                    >
-                      <div className="flex flex-row p-3 gap-4">
-                        <Image
-                          src={candidate.avatar}
-                          alt={`${candidate.name}'s profile avatar`}
-                          width={50}
-                          height={50}
-                          loading="lazy"
-                          className="rounded-full max-mobile:hidden"
-                        />
-                        <Image
-                          src={candidate.avatar}
-                          alt={`${candidate.name}'s profile avatar`}
-                          width={44}
-                          height={30}
-                          loading="lazy"
-                          className="rounded-full mobile:hidden"
-                        />
-                        <div className="w-full flex flex-row justify-between items-center">
-                          <div className="flex flex-col font-andika">
-                            <span className=" font-bold">
-                              {candidate.userId}
-                            </span>
-                            <span className="">
-                              {candidate.name.toLocaleUpperCase()}
-                            </span>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleDeleteCandidate(candidate.userId)
-                            }
-                            className="text-[20px] text-black font-extrabold w-[75px] h-[30px] border-2 border-gray-800 rounded-full flex justify-center items-center hover:bg-slate-600 mr-5 max-mobile:hidden"
-                          >
-                            Delete
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleDeleteCandidate(candidate.userId)
-                            }
-                            className="text-[20px] text-black font-extrabold w-[20px] h-[20px] border-2 border-gray-800 rounded-full flex justify-center items-center hover:bg-slate-600 mr-5 mobile:hidden absolute right-0 top-11"
-                          >
-                            -
-                          </button>
+            {candidates.length < 2 && (
+              <div className="text-center font-semibold p-5 mt-3 text-gray-500">
+                Add a candidates user_Id (students Number) in the input above to
+                nominate them as an electrol candidate.
+              </div>
+            )}
+            {candidates?.map((candidate, index) => {
+              if (candidate.userId == "" || candidate.userId == null) {
+                return;
+              } else {
+                return (
+                  <div
+                    key={candidate.userId}
+                    className={`w-[95%] p-2 flex flex-col mobile:gap-2 relative border-t-2 border-t-gray-600 mobile:mt-5 max-md:-mt-2${
+                      !input.type.binary ? "" : "hidden"
+                    }`}
+                  >
+                    <div className="flex flex-row p-3 gap-4">
+                      <Image
+                        src={candidate.avatar}
+                        alt={`${candidate.name}'s profile avatar`}
+                        width={50}
+                        height={50}
+                        loading="lazy"
+                        className="rounded-full max-mobile:hidden"
+                      />
+                      <Image
+                        src={candidate.avatar}
+                        alt={`${candidate.name}'s profile avatar`}
+                        width={44}
+                        height={30}
+                        loading="lazy"
+                        className="rounded-full mobile:hidden"
+                      />
+                      <div className="w-full flex flex-row justify-between items-center">
+                        <div className="flex flex-col font-andika">
+                          <span className=" font-bold">{candidate.userId}</span>
+                          <span className="">
+                            {candidate.name.toLocaleUpperCase()}
+                          </span>
                         </div>
-                      </div>
 
-                      <div className="w-[80%] max-mobile:w-full mobile:ml-30 border border-gray-400 rounded-md mobile:absolute mobile:top-[75px] mobile:left-[85px] max-mobile:text-[15px]">
-                        <textarea
-                          name={`candidate_desc-${index}`}
-                          required
-                          value={input.type.candidate[index]?.desc}
-                          onChange={handleInputChange}
-                          placeholder="Add a short description..."
-                          className="w-full h-[70px] border border-b rounded-lg p-2"
-                        />
-                        <input
-                          type="text"
-                          name={`candidate_slogan-${index}`}
-                          required
-                          value={input.type.candidate[index]?.slogan}
-                          onChange={handleInputChange}
-                          placeholder="Add a slogan"
-                          className="w-full rounded-lg p-1 px-2"
-                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleDeleteCandidate(candidate.userId)
+                          }
+                          className="text-[20px] text-black font-extrabold w-[75px] h-[30px] border-2 border-gray-800 rounded-full flex justify-center items-center hover:bg-slate-600 mr-5 max-mobile:hidden"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleDeleteCandidate(candidate.userId)
+                          }
+                          className="text-[20px] text-black font-extrabold w-[20px] h-[20px] border-2 border-gray-800 rounded-full flex justify-center items-center hover:bg-slate-600 mr-5 mobile:hidden absolute right-0 top-11"
+                        >
+                          -
+                        </button>
                       </div>
                     </div>
-                  );
-                }
-              })}
+
+                    <div className="w-[80%] max-mobile:w-full mobile:ml-30 border border-gray-400 rounded-md mobile:absolute mobile:top-[75px] mobile:left-[85px] max-mobile:text-[15px]">
+                      <textarea
+                        name={`candidate_desc-${index}`}
+                        required
+                        value={input.type.candidate[index]?.desc}
+                        onChange={handleInputChange}
+                        placeholder="Add a short description..."
+                        className="w-full h-[70px] border border-b rounded-lg p-2"
+                      />
+                      <input
+                        type="text"
+                        name={`candidate_slogan-${index}`}
+                        required
+                        value={input.type.candidate[index]?.slogan}
+                        onChange={handleInputChange}
+                        placeholder="Add a slogan"
+                        className="w-full rounded-lg p-1 px-2"
+                      />
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </div>
         </div>
 
-        <section className=" w-full mt-3 flex flex-row justify-between font-bold font-andika px-5 max-md:absolute max-mobile:bottom-5 max-md:bottom-5 max-md:right-2 max-md:px-7 max-mobile:px-6 max-mobile:pr-2">
+        <section className=" w-full max-md:mt-3 flex flex-row justify-between font-bold font-andika px-5 max-md:absolute max-mobile:bottom-5 max-md:bottom-5 max-md:right-2 max-md:px-7 max-mobile:px-6 max-mobile:pr-2 md:mt-2">
           <button
             type="button"
             onClick={handleSetGround}

@@ -10,7 +10,7 @@ const UserAuthentication = () => {
   const router = useRouter();
 
   if (status === "authenticated") {
-    console.log("Current session: ", session);
+    // console.log("Current session: ", session);
     if (session?.user) {
       const userRole = session.user.role;
       router.push(`/users/${userRole}`);
@@ -18,7 +18,7 @@ const UserAuthentication = () => {
   } else if (status === "loading") {
     return <div>Loading...</div>;
   } else if (status === "unauthenticated") {
-    console.log("No Authenticated user session ");
+    // console.log("No Authenticated user session ");
     return <LoginForm />;
   }
 };

@@ -68,7 +68,7 @@ const Page = () => {
   } else if (status === "authenticated") {
     return (
       <>
-        <div className=" max-mobile:hidden ">
+        <div className=" max-mobile:hidden">
           {ground === "landingPage" && (
             <AdminsLandingPage
               input={input}

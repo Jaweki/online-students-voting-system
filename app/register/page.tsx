@@ -15,7 +15,7 @@ const MainCard = ({
   status: RegistrationStatusObject;
   setStatus: (param: RegistrationStatusObject) => void;
 }) => {
-  const [userRole, setUserRole] = useState<string>("student");
+  const [userRole, setUserRole] = useState<string>("");
   const [rotate, setRotate] = useState("");
 
   return (
@@ -23,7 +23,7 @@ const MainCard = ({
       className={`${styles.card} ${rotate} flex flex-col justify-center items-center w-full`}
     >
       <div
-        className={`${styles.frontCard} mt-10 bg-slate-900 w-[300px] h-[400px] flex flex-col  items-center gap-4 text-white rounded-xl relative pt-10`}
+        className={`${styles.frontCard} max-mobile:mt-10 bg-slate-900 w-[350px] max-mobile:w-[290px] h-[450px] max-mobile:h-[100vh] flex flex-col  items-center text-white rounded-xl relative pt-10`}
       >
         <button
           onClick={() => {
@@ -41,26 +41,46 @@ const MainCard = ({
             width={50}
             height={50}
           />
-          Register as an Admin
+          An Admin
         </button>
-        <button
-          onClick={() => {
-            setUserRole("student");
-          }}
-          className={`w-1/2 p-5 border-2 flex flex-col items-center rounded-lg ${
-            userRole === "student"
-              ? " border-blue-700 bg-gray-500 font-extrabold"
-              : " border-gray-600 font-medium"
-          }`}
-        >
-          <Image
-            src={"/images/student-icon.png"}
-            alt="selected to login as a Student"
-            width={50}
-            height={50}
-          />
-          Register as a Student
-        </button>
+        <div className="flex flex-row gap-2 max-mobile:flex-col w-full p-3 justify-center items-center">
+          <button
+            onClick={() => {
+              setUserRole("student");
+            }}
+            className={`w-1/2 p-5 border-2 flex flex-col items-center rounded-lg  ${
+              userRole === "student"
+                ? " border-blue-700 bg-gray-500 font-extrabold"
+                : " border-gray-600 font-medium"
+            }`}
+          >
+            <Image
+              src={"/images/student-icon.png"}
+              alt="selected to login as a Student"
+              width={50}
+              height={50}
+            />
+            A Student
+          </button>
+          <button
+            onClick={() => {
+              setUserRole("staff");
+            }}
+            className={`w-1/2 p-5 border-2 flex flex-col items-center rounded-lg ${
+              userRole === "staff"
+                ? " border-blue-700 bg-gray-500 font-extrabold"
+                : " border-gray-600 font-medium"
+            }`}
+          >
+            <Image
+              src={"/images/institutions-staff.png"}
+              alt="selected to login as an institutions staff"
+              width={50}
+              height={50}
+            />
+            An Institutions Staff
+          </button>
+        </div>
 
         <button
           onClick={() => {
