@@ -54,6 +54,7 @@ const LoginForm = () => {
               type="text"
               name="credentialId"
               required
+              autoComplete="off"
               placeholder="i.e. Students/ Admins Id or email"
               value={input.credentialId}
               onChange={handleInputChange}
@@ -68,6 +69,7 @@ const LoginForm = () => {
               type="password"
               name="password"
               required
+              autoComplete="off"
               placeholder="i.e. 8-digit password"
               value={input.password}
               onChange={handleInputChange}
