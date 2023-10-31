@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
+import Ballots from "@/components/Ballots";
 
 const Page = () => {
   const { data: session, status } = useSession() as UserSessionType;
@@ -99,6 +100,7 @@ const Page = () => {
           </section>
 
           {/* Render the active ballots */}
+          <Ballots />
         </div>
       </div>
     );
