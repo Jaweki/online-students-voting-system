@@ -230,9 +230,23 @@ const CreateBallot = ({
       }
     });
     setInput(inputDeepCopy);
-    if (!input.type.binary && input.type.candidate.length < 2) {
-      handleInvalidCases("Nominate more than two candidates!");
-      return;
+    if (!inputDeepCopy.type.binary) {
+      // Check if there are at least two candidates
+      if (inputDeepCopy.type.candidate.length < 2) {
+        handleInvalidCases("Nominate more than two candidates!");
+        return;
+      }
+
+      alert(inputDeepCopy.type.candidate.length);
+      // Check if each candidate has all the required information
+      for (const candidate of inputDeepCopy.type.candidate) {
+        if (!candidate.userId || !candidate.slogan || !candidate.desc) {
+          handleInvalidCases(
+            "Each candidate must have userId, slogan, and desc."
+          );
+          return;
+        }
+      }
     }
 
     const payload = { ...inputDeepCopy, admin: session?.user.userId };
