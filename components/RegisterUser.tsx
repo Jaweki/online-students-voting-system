@@ -123,7 +123,7 @@ const RegisterUser = ({
     <div className={` flex flex-col  items-center w-full bg-neutral-magnolia`}>
       <p
         className={`${
-          userRole === "students" ? "" : "hidden"
+          userRole === "student" ? "" : "hidden"
         } font-semibold mobile:text-[30px] mobile:font-extrabold text-center`}
       >
         Register With us to be part of the change.
@@ -149,7 +149,7 @@ const RegisterUser = ({
       >
         <label className="">
           <span
-            className={`${userRole === "students" ? "" : "hidden"} text-white`}
+            className={`${userRole === "student" ? "" : "hidden"} text-white`}
           >
             Students number
           </span>

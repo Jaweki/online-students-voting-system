@@ -230,7 +230,7 @@ const CreateBallot = ({
       }
     });
     setInput(inputDeepCopy);
-    if (!input.type.binary && candidates.length < 2) {
+    if (!input.type.binary && input.type.candidate.length < 2) {
       handleInvalidCases("Nominate more than two candidates!");
       return;
     }
