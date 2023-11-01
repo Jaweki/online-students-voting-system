@@ -78,3 +78,15 @@ export type Ballot = {
         down: number;
     }
   };
+
+  export type UserToBallotRelationType = {
+    userId: string;
+    relation: Array<{
+      ballot_id: string;
+      type: {
+        binary: boolean;
+        candidate: string;
+        vote: string;
+      }
+    }>
+  }

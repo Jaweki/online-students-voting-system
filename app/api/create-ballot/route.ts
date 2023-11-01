@@ -4,26 +4,6 @@ import { connectToDB } from "@/utils/database";
 import { NextRequest, NextResponse } from "next/server";
 import _ from 'lodash';
 
-// export type InputState = {
-//     title: string;
-//     desc: string;
-//     tags: string;
-//     time_span: {
-//       from: string;
-//       to: string;
-//     };
-//     type: {
-//       binary: boolean;
-//       candidate: Array<{ userId: string; slogan: string; desc: string }>;
-//     };
-//     admin?: string;
-//     ballotId?: string;
-//     votes?: {
-//         up: number;
-//         down: number;
-//     }
-//   };
-
 export const POST = async(req: NextRequest, res: NextResponse) => {
     try {
         const data: InputState = await req.json();

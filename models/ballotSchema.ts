@@ -45,16 +45,21 @@ const ballotSchema = new Schema({
         candidate: Array<{ 
             userId: {
                 type: "string",
-                required: [true, " is required to save in db!"]
+                required: [true, "candidates userId is required to save in db!"]
             },
             slogan: {
                 type: "string",
-                required: [true, " is required to save in db!"]
+                required: [true, "candidates slogan is required to save in db!"]
             }, 
             desc: {
                 type: "string",
-                required: [true, " is required to save in db!"]
-            }}>,
+                required: [true, "candidates description is required to save in db!"]
+            },
+            voteCount: {
+                type: "number",
+                required: [true, "vote-count is required to save in db!"]
+            }
+        }>,
     },
 });
 

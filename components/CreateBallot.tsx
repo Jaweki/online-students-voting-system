@@ -2,8 +2,7 @@ import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import _ from "lodash";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { UserSessionType } from "@/types/types";
-import { InputState } from "@/types/types";
+import { UserSessionType, InputState } from "@/types/types";
 import { initalNewBallotInputState } from "@/utils/initialStates";
 
 const CreateBallot = ({
@@ -53,10 +52,6 @@ const CreateBallot = ({
     inputDeepCopy.type.binary = !inputDeepCopy.type.binary;
     setInput(inputDeepCopy);
 
-    // window.scrollTo({
-    //   top: refTarget.current?.offsetHeight,
-    //   behavior: "smooth",
-    // });
     const showDiv = refTarget.current;
     if (showDiv) {
       showDiv.scrollTo({
@@ -198,7 +193,7 @@ const CreateBallot = ({
     const inputDeepCopy = _.cloneDeep(input);
     if (
       !validateInputDate(inputDeepCopy.time_span.from) &&
-      !validateInputDate(inputDeepCopy.time_span.from)
+      !validateInputDate(inputDeepCopy.time_span.to)
     ) {
       handleInvalidCases(
         "Invalid Ballot From and To Dates! Accepted Format is: DD-MM-YYYY"
