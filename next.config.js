@@ -6,7 +6,7 @@ const nextConfig = {
     reactStrictMode: true,
     async headers() {
         return [{
-            source: '/*',
+            source: '/',
             headers: [
                 {
                     key: 'Cache-Control',
