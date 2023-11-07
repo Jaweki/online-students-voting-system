@@ -1,3 +1,4 @@
+"use client";
 import { Ballot, UserToBallotRelationType } from "@/types/types";
 import { useEffect, useState } from "react";
 import BallotView from "./BallotView";
