@@ -39,14 +39,14 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ### Screenshots
 
-[landing page](./public/screenshots/Screenshot-1.png)
-[register first page](./public/screenshots/Screenshot-2.png)
-[register second page](./public/screenshots/Screenshot-3.png)
-[login page](./public/screenshots/Screenshot-4.png)
-[logged in admins landing page](./public/screenshots/Screenshot-5.png)
-[available ballots](./public/screenshots/Screenshot-6.png)
-[candiate type ballot](./public/screenshots/Screenshot-7.png)
-[binary type ballot](./public/screenshots/Screenshot-8.png)
+![landing page](./public/screenshots/Screenshot-1.png)
+![register first page](./public/screenshots/Screenshot-2.png)
+![register second page](./public/screenshots/Screenshot-3.png)
+![login page](./public/screenshots/Screenshot-4.png)
+![logged in admins landing page](./public/screenshots/Screenshot-5.png)
+![available ballots](./public/screenshots/Screenshot-6.png)
+![candiate type ballot](./public/screenshots/Screenshot-7.png)
+![binary type ballot](./public/screenshots/Screenshot-8.png)
 
 ### Links
 
