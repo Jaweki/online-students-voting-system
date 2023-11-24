@@ -58,6 +58,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ### Built with
 
 - Mobile-first workflow
+- [TypeScript](https://www.typescriptlang.org/) - a superset of javascript.
 - [Tailwindcss](https://tailwindcss.com/) - CSS framework
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
