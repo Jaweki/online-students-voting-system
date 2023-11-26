@@ -1,6 +1,6 @@
 # Online Voters System - Next.js App
 
-This project solution is an Online voters system purposely created to be used by university students. The project was built using Next.js template, Next Auth, Cloudinary and MongoDB intergration. The system allows users to login or register (as either students, professor, or Admin). Login process is quite simple and intutive, with auto role detection, for viewing intended users voters page. Read more to understand the solution.
+This project solution is an Online voters system purposely created to be used by university students. The project was built using (React)Next.js template, Next Auth, Cloudinary and MongoDB integration, and  Typescript. The system allows users to login or register (as either students, professor, or Admin). Login process is quite simple and intuitive, with auto role detection, for viewing intended users voters page. Read more to understand the solution at my GitHub repository: https://github.com/Jaweki/online-students-voting-system
 
 ## Table of contents
 
