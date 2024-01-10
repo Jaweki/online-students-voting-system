@@ -57,17 +57,25 @@ const LandingPage = () => {
             </div>
           ))}
         </div>
-        <p>
-          Your voice matters, and Your Voice, Your Choice is the platform where
-          your ideas meet action. Join us in the journey of making meaningful
-          change, one vote at a time.
-        </p>
-        <p>
-          <a href="#" className=" text-blue-800 underline">
-            Register now
-          </a>
-          , and let&apos;s build a better future together!
-        </p>
+        <div className=" text-left flex w-full flex-col items-center">
+          <p>
+            Your voice matters, and Your Voice, Your Choice is the platform
+            where your ideas meet action. Join us in the journey of making
+            meaningful change, one vote at a time.
+          </p>
+          <Link
+            href="/register"
+            className=" flex justify-between items-center w-[200px]  font-extrabold bg-slate-900 rounded-lg p-3"
+          >
+            <span className="text-blue-800 underline">Register now</span>
+            <span className=" text-white text-5xl no-underline  font-mono">
+              &rarr;
+            </span>
+          </Link>
+          <p className="text-center">
+            Let&apos;s build a better future together!
+          </p>
+        </div>
       </div>
 
       <p className=" w-full font-bold text-center text-[25px]">
