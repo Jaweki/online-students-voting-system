@@ -47,36 +47,6 @@ const BallotView = ({
   };
 
   useEffect(() => {
-    if (ballot?.type.binary) {
-      const userBallotRel =
-        userBallotRelation?.relation.filter(
-          (rel) => rel.ballot_id === ballot._id
-        ) ?? null;
-
-      if (userBallotRel !== null) {
-        setBinaryVote(userBallotRel[0]?.type.vote || null);
-      }
-    } else if (!ballot?.type.binary) {
-      const userBallotRel =
-        userBallotRelation?.relation.filter(
-          (rel) => rel.ballot_id === ballot?._id
-        ) ?? null;
-
-      if (userBallotRel !== null) {
-        setVotedCandidate(userBallotRel[0]?.type.candidate || null);
-      }
-    }
-  }, [ballot, userBallotRelation?.relation]);
-  useEffect(() => {
-    if (ballot?.type.candidate) {
-      const userIds_: string[] = ballot?.type.candidate.map(
-        (obj) => obj.userId
-      );
-      setUserIds(userIds_);
-    }
-  }, [ballot?.type.candidate]);
-
-  useEffect(() => {
     const fetchNomineesData = async () => {
       try {
         const response = await fetch("/api/get-candidates", {
@@ -97,6 +67,42 @@ const BallotView = ({
     };
     fetchNomineesData();
   }, [userIds]);
+
+  useEffect(() => {
+    if (ballot?.type.binary) {
+      const userBallotRel =
+        userBallotRelation?.relation.filter(
+          (rel) => rel.ballot_id === ballot._id
+        ) ?? null;
+
+      if (userBallotRel !== null) {
+        setBinaryVote(userBallotRel[0]?.type.vote || null);
+      }
+    } else if (!ballot?.type.binary) {
+      const userBallotRel =
+        userBallotRelation?.relation.filter(
+          (rel) => rel.ballot_id === ballot?._id
+        ) ?? null;
+
+      if (userBallotRel !== null) {
+        setVotedCandidate(userBallotRel[0]?.type.candidate || null);
+      }
+    }
+  }, [ballot, userBallotRelation?.relation]);
+
+  useEffect(() => {
+    if (ballot?.type.candidate) {
+      const userIds_: string[] = ballot?.type.candidate.map(
+        (obj) => obj.userId
+      );
+      setUserIds(userIds_);
+    }
+
+    window.scroll({
+      top: 400,
+      behavior: "smooth",
+    });
+  }, [ballot?.type.candidate]);
 
   const handleBinaryVote = async (vote: string) => {
     setBinaryVote(vote);
@@ -161,7 +167,6 @@ const BallotView = ({
   const handleBackButton = () => {
     setGround("main");
     setBallotInView(null);
-    window.location.assign("/users");
     handleScroll();
   };
   return (

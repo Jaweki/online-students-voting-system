@@ -9,7 +9,7 @@ export const Navbar = () => {
   const [ismobile, setIsMobile] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
   const router = useRouter();
-  const { status } = useSession() as UserSessionType;
+  const { status, data } = useSession() as UserSessionType;
 
   const handleMenuToggle = () => {
     setMenuToggle(!menuToggle);
@@ -29,7 +29,7 @@ export const Navbar = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div>
+      <div className="top-0 z-10 fixed bg-white w-full h-[100px]">
         {ismobile ? (
           <div className="flex flex-row px-5 py-2 justify-between relative">
             <Image

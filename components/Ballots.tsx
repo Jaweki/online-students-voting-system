@@ -3,13 +3,14 @@ import { Ballot, UserToBallotRelationType } from "@/types/types";
 import { useEffect, useState } from "react";
 import BallotView from "./BallotView";
 import { useSession } from "next-auth/react";
+import { animateScroll as scroll } from "react-scroll";
 
 const Ballots = () => {
   const { data: session }: any = useSession();
   const [ballots, setBallots] = useState<Ballot[] | null>(null);
   const [ground, setGround] = useState("main");
   const [ballotInView, setBallotInView] = useState<Ballot | null>(null);
-  const [elementInView, setElementInView] = useState("");
+  const [scrollIndex, setScrollIndex] = useState(0);
   const [userBallotRelation, setUserBallotRelation] =
     useState<UserToBallotRelationType | null>(null);
 
@@ -55,32 +56,38 @@ const Ballots = () => {
   }, []);
 
   const handleScroll = () => {
-    const scrollToElement = document.getElementById(elementInView);
-    scrollToElement?.scrollIntoView({ behavior: "smooth" });
+    scroll.scrollTo(scrollIndex);
   };
 
-  const handleViewBallot = (_id: any, ballotScrollId: string) => {
+  const handleViewBallot = (_id: any, scrollIndex_: number) => {
     if (ballots) {
       setGround(`${_id}`);
       const ballot: Ballot[] = ballots?.filter((ballot) => ballot._id === _id);
       setBallotInView(ballot[0]);
-      setElementInView(ballotScrollId);
+
+      const ballotScrollHeight = document.getElementById(_id)?.scrollHeight;
+
+      if (ballotScrollHeight) {
+        // 180 is the scroll offset from the top as the div holding
+        // ballot lists is positioned 180 px from the top.
+        setScrollIndex(ballotScrollHeight * scrollIndex_);
+      }
     }
   };
 
   return (
-    <div className="mb-10">
+    <div className=" w-full">
       {ground === "main" && (
-        <div className=" w-full md:grid md:grid-cols-3 max-md:flex max-md:flex-col gap-3 p-5 bg-slate-100 rounded-xl">
+        <div className=" w-full grid xl:grid-cols-3 md:grid-cols-2 max-md:flex max-md:flex-col gap-3 p-5 bg-slate-100 rounded-xl">
           {ballots?.map((ballot, index) => (
             <div
               key={ballot._id}
-              id={`ballot-${index}`}
+              id={ballot._id}
               className={`${
                 ballot.type.binary
                   ? " bg-primary-alphaBurntOrange border border-primary-burntOrange hover:border-yellow-300 hover:shadow-yellow-300"
                   : " bg-primary-alphaTurquoise border border-primary-turquoise hover:border-slate-900"
-              } hover:shadow-2xl  w-[400px] max-md:w-full h-[300px] rounded-2xl p-3 flex flex-col gap-2 flex-nowrap overflow-hidden container relative`}
+              } hover:shadow-2xl  lg:w-[400px] md:w-[350px] max-md:w-full h-[300px] rounded-2xl p-3 flex flex-col gap-2 flex-nowrap overflow-hidden container relative`}
             >
               <div
                 className={`${
@@ -95,7 +102,7 @@ const Ballots = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    handleViewBallot(ballot._id, `ballot-${index}`);
+                    handleViewBallot(ballot._id, index + 1);
                   }}
                   className=" font-extrabold text-white bg-slate-950 rounded-lg w-[40px] h-[30px] hover:bg-blue-950 hover:shadow-slate-800 hover:shadow-2xl"
                 >
@@ -106,11 +113,21 @@ const Ballots = () => {
                 {ballot.title}
               </div>
 
-              <div className=" text-left font-andika  mobile:text-[25px] md:text-[18px] text-ellipsis overflow-hidden">
-                {ballot.desc}
+              <div className="max-h-[85px] text-left font-andika overflow-hidden">
+                <div
+                  className="mobile:text-[25px] md:text-[18px] overflow-hidden"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    WebkitLineClamp: 3, // Adjust the number of lines to show before truncating
+                  }}
+                >
+                  {ballot.desc}
+                </div>
               </div>
 
-              <div className="">
+              <div className="absolute bottom-3">
                 <div
                   className={`${
                     ballot.type.binary ? "text-gray-600" : "text-gray-400"
@@ -123,7 +140,7 @@ const Ballots = () => {
                     ? "voted"
                     : "not voted"}
                 </div>
-                <div className=" flex flex-row gap-2 ">
+                <div className=" flex flex-row gap-2 overflow-ellipsis">
                   {ballot.tags.map((tag) => (
                     <span key={tag} className=" font-bold">
                       #

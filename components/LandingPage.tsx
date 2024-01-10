@@ -47,11 +47,11 @@ const LandingPage = () => {
           or pursuing any other path, your unique perspective and voice matter.
         </p>
         <p>Why should you be part of this movement?</p>
-        <div className="w-full grid mobile:grid-cols-3 max-md:grid-cols-2 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:p-2 max-mobile:mr-4 ">
+        <div className="w-full grid mobile:grid-cols-3 max-md:grid-cols-3 max-md:my-10 max-mobile:grid-cols-1 gap-2 p-10 max-md:p-0 max-mobile:p-2 max-mobile:mr-4 ">
           {heroData.map((data) => (
             <div
               key={`${data}`}
-              className=" border shadow-lg rounded-2xl w-[300px] p-2 border-primary-zetecBlue"
+              className=" border shadow-lg rounded-2xl md:w-[300px] p-2 border-primary-zetecBlue"
             >
               {data}
             </div>
@@ -74,7 +74,7 @@ const LandingPage = () => {
         Your elections. Any device. Any location. On time. With Notification and
         Support.
       </p>
-      <div className="w-full grid grid-cols-3 max-md:grid-cols-2 max-mobile:grid-cols-1 gap-2 p-10 max-mobile:p-2 max-mobile:mr-4">
+      <div className="w-full grid grid-cols-3 max-md:grid-cols-2  max-mobile:grid-cols-1 gap-2 p-10 max-md:p-0 max-mobile:p-2 max-mobile:mr-4 max-md:my-10">
         {functionalityData.map((item, index) => (
           <div
             key={`${item.title}`}

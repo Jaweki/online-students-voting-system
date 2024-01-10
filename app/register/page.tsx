@@ -20,16 +20,16 @@ const MainCard = ({
 
   return (
     <div
-      className={`${styles.card} ${rotate} flex flex-col justify-center items-center w-full`}
+      className={`${styles.card} ${rotate} flex flex-col justify-center items-center w-full mt-28`}
     >
       <div
-        className={`${styles.frontCard} max-mobile:mt-10 bg-slate-900 w-[350px] max-mobile:w-[290px] h-[450px] max-mobile:h-[100vh] flex flex-col  items-center text-white rounded-xl relative pt-10`}
+        className={`${styles.frontCard} max-mobile:mt-10 bg-slate-900 w-[350px] max-mobile:w-[290px] h-[450px] max-mobile:h-[100vh] flex flex-col  items-center text-white rounded-xl relative pt-10 mt-3`}
       >
         <button
           onClick={() => {
             setUserRole("admin");
           }}
-          className={`w-1/2 p-5 border-2 flex flex-col items-center rounded-lg ${
+          className={`w-1/2 p-5 h-[140px] border-2 flex flex-col items-center rounded-lg ${
             userRole === "admin"
               ? " border-blue-700 bg-gray-500 font-extrabold"
               : " border-gray-600 font-medium"
@@ -48,7 +48,7 @@ const MainCard = ({
             onClick={() => {
               setUserRole("student");
             }}
-            className={`w-1/2 p-5 border-2 flex flex-col items-center rounded-lg  ${
+            className={`w-1/2 h-[140px] p-5 border-2 flex flex-col items-center rounded-lg  ${
               userRole === "student"
                 ? " border-blue-700 bg-gray-500 font-extrabold"
                 : " border-gray-600 font-medium"
@@ -66,9 +66,9 @@ const MainCard = ({
             onClick={() => {
               setUserRole("staff");
             }}
-            className={`w-1/2 p-5 border-2 flex flex-col items-center rounded-lg ${
+            className={`w-1/2 p-5 h-[140px] border-2 flex flex-col items-center rounded-lg ${
               userRole === "staff"
-                ? " border-blue-700 bg-gray-500 font-extrabold"
+                ? " border-blue-700 bg-gray-500 "
                 : " border-gray-600 font-medium"
             }`}
           >
@@ -86,7 +86,12 @@ const MainCard = ({
           onClick={() => {
             setRotate(`${styles.rotateFront}`);
           }}
-          className={` bottom-2 right-5 text-white bg-slate-950 hover:bg-blue-700 w-[100px] h-[40px] rounded-lg absolute`}
+          disabled={userRole == ""}
+          className={` ${
+            userRole == ""
+              ? "opacity-0"
+              : " bottom-2 right-5 text-white bg-slate-950 hover:bg-blue-700 w-[100px] h-[40px] rounded-lg absolute"
+          }`}
         >
           NEXT
         </button>

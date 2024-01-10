@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [showManageUsers, setShowManageUsers] = useState(false);
 
   return (
-    <main className="">
+    <div className="">
       <LandingPageContext.Provider value={showLandingPage}>
         <ManageUsersContext.Provider value={showManageUsers}>
           <AdjustGuideContext.Provider value={showAdjustGuide}>
@@ -27,12 +27,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   setShowNewBallot={setShowNewBallot}
                   setShowLandingPage={setShowLandingPage}
                 />
-                {children}
+                <main className="mt-28">{children}</main>
               </NewBallotContext.Provider>
             </AdjustRulesContext.Provider>
           </AdjustGuideContext.Provider>
         </ManageUsersContext.Provider>
       </LandingPageContext.Provider>
-    </main>
+    </div>
   );
 }

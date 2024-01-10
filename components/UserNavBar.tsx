@@ -44,7 +44,11 @@ const UserNavBar = ({
   }, [session]);
 
   return (
-    <div className={`${status === "authenticated" ? "" : "hidden"}`}>
+    <div
+      className={`${
+        status === "authenticated" ? "top-0 fixed z-10 w-full" : "hidden"
+      }`}
+    >
       {ismobile ? (
         <div className="w-[100vw] h-[60px] flex flex-row px-5 py-2 justify-between relative bg-slate-900">
           <Image
